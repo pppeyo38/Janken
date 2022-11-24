@@ -7,13 +7,17 @@ struct ContentView: View {
   
   var body: some View {
     VStack {
+      Spacer()
       if ansNum == -1 {
         Text("これからじゃんけんをします")
+          .padding(.bottom)
       } else {
         Image(imgName[ansNum])
           .resizable()
           .aspectRatio(contentMode: .fit)
+        Spacer()
         Text(imgStr[ansNum])
+          .padding(.bottom)
       }
       Button("じゃんけんをするぞ！"){
         print("タップされたぞ")
