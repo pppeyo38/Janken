@@ -29,6 +29,7 @@ struct ContentView: View {
       // 戦績
       Text(resultText)
         .font(.title)
+      Spacer()
       
       // 画像と結果
       if ansNum == -1 {
@@ -40,9 +41,12 @@ struct ContentView: View {
         Image(imgName[ansNum])
           .resizable()
           .aspectRatio(contentMode: .fit)
+          .rotationEffect(.init(degrees: 180))
+        Spacer()
         Image(imgName[selNum])
           .resizable()
           .aspectRatio(contentMode: .fit)
+        Spacer()
         // 画像
         Text(resultStr[resultNum])
           .padding(.bottom)
