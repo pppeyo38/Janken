@@ -83,7 +83,10 @@ struct ContentView: View {
       
       // リセットボタン
       Button("リセット"){
-        
+        resultText = ""
+        wld = [0, 0, 0]
+        ansNum = -1
+        selNum = -1
       }
         .frame(maxWidth: .infinity)
         .frame(height: 60)
