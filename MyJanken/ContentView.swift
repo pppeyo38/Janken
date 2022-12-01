@@ -13,6 +13,17 @@ struct ContentView: View {
   let resultUnit = ["勝", "敗", "分"] // 戦績の表示用
   let tabWL = [[2, 0, 1], [1, 2, 0], [0, 1, 2]] // 対戦表
   
+  // 判定および戦績の更新
+  func janken() {
+    ansNum = Int.random(in: 0...2)
+    resultNum = tabWL[selNum][ansNum]
+    wld[resultNum] += 1
+    resultText = ""
+    for i in 0...2 {
+      resultText += String(wld[i]) + resultUnit[i]
+    }
+  }
+  
   var body: some View {
     VStack {
       // 戦績
@@ -35,16 +46,15 @@ struct ContentView: View {
         // 画像
         Text(resultStr[resultNum])
           .padding(.bottom)
+        Text(resultStr[resultNum])
+          .font(.title)
       }
-      
-      // じゃんけん結果
-      Text(resultStr[0])
-        .font(.title)
       
       // 自分の出す手を決めるボタン
       HStack {
         Button(imgStr[0]){
           selNum = 0
+          janken()
         }
           .frame(maxWidth: .infinity)
           .frame(height: 80)
@@ -53,6 +63,7 @@ struct ContentView: View {
           .foregroundColor(Color.white)
         Button(imgStr[1]){
           selNum = 1
+          janken()
         }
           .frame(maxWidth: .infinity)
           .frame(height: 80)
@@ -61,6 +72,7 @@ struct ContentView: View {
           .foregroundColor(Color.white)
         Button(imgStr[2]){
           selNum = 1
+          janken()
         }
           .frame(maxWidth: .infinity)
           .frame(height: 80)
