@@ -16,32 +16,34 @@ struct ContentView: View {
   var body: some View {
     VStack {
       HStack {
+        // 自分の出す手を決めるボタン
         Button("グー"){
           
         }
           .frame(maxWidth: .infinity)
-          .frame(height: 100)
-          .font(.title)
-          .background(Color.pink)
+          .frame(height: 70)
+          .font(.title2)
+          .background(Color.purple)
           .foregroundColor(Color.white)
         Button("チョキ"){
           
         }
           .frame(maxWidth: .infinity)
-          .frame(height: 100)
-          .font(.title)
-          .background(Color.pink)
+          .frame(height: 70)
+          .font(.title2)
+          .background(Color.purple)
           .foregroundColor(Color.white)
         Button("パー"){
           
         }
           .frame(maxWidth: .infinity)
-          .frame(height: 100)
-          .font(.title)
-          .background(Color.pink)
+          .frame(height: 70)
+          .font(.title2)
+          .background(Color.purple)
           .foregroundColor(Color.white)
       }
     }
+    .padding()
   }
 }
 
