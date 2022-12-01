@@ -75,7 +75,7 @@ struct ContentView: View {
           .background(Color.purple)
           .foregroundColor(Color.white)
         Button(imgStr[2]){
-          selNum = 1
+          selNum = 2
           janken()
         }
           .frame(maxWidth: .infinity)
