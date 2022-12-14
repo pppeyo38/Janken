@@ -15,7 +15,6 @@ struct ContentView: View {
   let imgName = ["gu", "choki", "pa"] // 画像名
   let imgStr = ["グー", "チョキ", "パー"] // 自分の手の表示用
   let resultStr = ["勝ち！", "負け…", "引き分け"] // 結果の表示用
-  let resultUnit = ["勝", "敗", "分"] // 戦績の表示用
   let tabWL = [[2, 0, 1], [1, 2, 0], [0, 1, 2]] // 対戦表
   
   // 判定および戦績の更新
