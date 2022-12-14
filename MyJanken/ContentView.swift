@@ -10,7 +10,7 @@ struct ContentView: View {
   @State var jankenTimes = 0 // じゃんけん総回数
   @State var userHand = [0, 0, 0] // ユーザがどの手を何回出したか
   @State var isViable = true // 自分の出す手でじゃんけん実行可能か
-  @State var isFinish = true // 試合終了か（Popup表示）
+  @State var isFinish = false // 試合終了か（Popup表示）
   
   let imgName = ["gu", "choki", "pa"] // 画像名
   let imgStr = ["グー", "チョキ", "パー"] // 自分の手の表示用
@@ -55,15 +55,16 @@ struct ContentView: View {
   // 勝敗判定
   func judge() {
     if (userLife == 0) {
-      resultText = "あなたの負け…"
+      resultText = "あなたの負け😭"
+      isFinish = true
     } else if (jankenTimes == 12) {
-      resultText = "あなたの勝ち！"
+      resultText = "あなたの勝ち🎉"
+      isFinish = true
     }
   }
   
   var body: some View {
     VStack {
-//      PopupView(isView: $isFinish, resultText: $resultText)
       // ユーザライフ表示
       HStack {
         Image(systemName: "suit.heart.fill")
@@ -140,19 +141,20 @@ struct ContentView: View {
     }
       .padding()
       .overlay{
-        PopupView(isView: $isFinish, resultText: $resultText)
+        if (isFinish) {
+          PopupView(resultText: $resultText)
+        }
       }
   }
 }
 
 struct PopupView: View {
-  @Binding var isView: Bool
   @Binding var resultText: String
   
   var body: some View {
     VStack {
       VStack(spacing: 24) {
-        Text("勝ち負けテキスト")
+        Text(resultText)
           .font(.title)
           .padding(.top)
         Button("もう一度プレイする") {
