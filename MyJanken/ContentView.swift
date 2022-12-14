@@ -10,6 +10,7 @@ struct ContentView: View {
   @State var jankenTimes = 0 // じゃんけん総回数
   @State var userHand = [0, 0, 0] // ユーザがどの手を何回出したか
   @State var isViable = true // 自分の出す手でじゃんけん実行可能か
+  @State var isFinish = true // 試合終了か（Popup表示）
   
   let imgName = ["gu", "choki", "pa"] // 画像名
   let imgStr = ["グー", "チョキ", "パー"] // 自分の手の表示用
@@ -62,6 +63,7 @@ struct ContentView: View {
   
   var body: some View {
     VStack {
+//      PopupView(isView: $isFinish, resultText: $resultText)
       // ユーザライフ表示
       HStack {
         Image(systemName: "suit.heart.fill")
@@ -136,7 +138,40 @@ struct ContentView: View {
         }
       }
     }
-    .padding()
+      .padding()
+      .overlay{
+        PopupView(isView: $isFinish, resultText: $resultText)
+      }
+  }
+}
+
+struct PopupView: View {
+  @Binding var isView: Bool
+  @Binding var resultText: String
+  
+  var body: some View {
+    VStack {
+      VStack(spacing: 24) {
+        Text("勝ち負けテキスト")
+          .font(.title)
+          .padding(.top)
+        Button("もう一度プレイする") {
+          
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 55)
+        .background(Color.blue)
+        .foregroundColor(Color.white)
+        .cornerRadius(12)
+      }
+        .frame(width: 320, height: 200, alignment: .center)
+        .padding()
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(color: .gray.opacity(0.7), radius: 5)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(Color.gray.opacity(0.5))
   }
 }
 
