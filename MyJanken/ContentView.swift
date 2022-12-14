@@ -4,9 +4,10 @@ struct ContentView: View {
   @State var ansNum = -1 // コンピューターの手
   @State var selNum = -1 // 自分の手
   @State var resultNum = -1 // 結果
-  @State var wld = [0, 0, 0] // 通算の勝ち・負け・引き分け
   @State var resultText = "" // 戦績の文字列
   @State var userLife = 3 // ユーザライフ
+  @State var userHand = [0, 0, 0] // ユーザがどの手を何回出したか
+  @State var isViable = true // 自分の出す手でじゃんけん実行可能か
   
   let imgName = ["gu", "choki", "pa"] // 画像名
   let imgStr = ["グー", "チョキ", "パー"] // 自分の手の表示用
@@ -14,17 +15,26 @@ struct ContentView: View {
   let resultUnit = ["勝", "敗", "分"] // 戦績の表示用
   let tabWL = [[2, 0, 1], [1, 2, 0], [0, 1, 2]] // 対戦表
   
-  let userHand = [0, 0, 0] // ユーザがどの手を何回出したか
-  
   // 判定および戦績の更新
   func doJanken() {
-    ansNum = Int.random(in: 0...2)
-    resultNum = tabWL[selNum][ansNum]
-    wld[resultNum] += 1
-    resultText = ""
+    isViable = selfOutPutCount(selfHand: selNum)
+    if (isViable) {
+      ansNum = Int.random(in: 0...2)
+      resultNum = tabWL[selNum][ansNum]
+      resultText = imgStr[selNum] + "を出しました"
+    } else {
+      resultText = imgStr[selNum] + "はもう出せません"
+    }
     lifeCalc(result: resultNum)
-    for i in 0...2 {
-      resultText += String(wld[i]) + resultUnit[i]
+  }
+  
+  // 手カウント 0→グー 1→チョキ 2→パー
+  func selfOutPutCount(selfHand: Int) -> Bool {
+    if (userHand[selfHand] < 4) {
+      userHand[selfHand] += 1
+      return true
+    } else {
+      return false
     }
   }
   
@@ -67,7 +77,7 @@ struct ContentView: View {
           .aspectRatio(contentMode: .fit)
         Spacer()
         // 画像
-        Text(resultStr[resultNum])
+        Text(resultText)
           .padding(.bottom)
         Text(resultStr[resultNum])
           .font(.title)
@@ -75,33 +85,42 @@ struct ContentView: View {
       
       // 自分の出す手を決めるボタン
       HStack {
-        Button(imgStr[0]){
-          selNum = 0
-          doJanken()
+        VStack {
+          Button(imgStr[0]){
+            selNum = 0
+            doJanken()
+          }
+            .frame(maxWidth: .infinity)
+            .frame(height: 80)
+            .font(.title2)
+            .background(Color.purple)
+            .foregroundColor(Color.white)
+          Text(String(userHand[0]) + " / 4")
         }
-          .frame(maxWidth: .infinity)
-          .frame(height: 80)
-          .font(.title2)
-          .background(Color.purple)
-          .foregroundColor(Color.white)
-        Button(imgStr[1]){
-          selNum = 1
-          doJanken()
+        VStack {
+          Button(imgStr[1]){
+            selNum = 1
+            doJanken()
+          }
+            .frame(maxWidth: .infinity)
+            .frame(height: 80)
+            .font(.title2)
+            .background(Color.purple)
+            .foregroundColor(Color.white)
+          Text(String(userHand[1]) + " / 4")
         }
-          .frame(maxWidth: .infinity)
-          .frame(height: 80)
-          .font(.title2)
-          .background(Color.purple)
-          .foregroundColor(Color.white)
-        Button(imgStr[2]){
-          selNum = 2
-          doJanken()
+        VStack {
+          Button(imgStr[2]){
+            selNum = 2
+            doJanken()
+          }
+            .frame(maxWidth: .infinity)
+            .frame(height: 80)
+            .font(.title2)
+            .background(Color.purple)
+            .foregroundColor(Color.white)
+          Text(String(userHand[2]) + " / 4")
         }
-          .frame(maxWidth: .infinity)
-          .frame(height: 80)
-          .font(.title2)
-          .background(Color.purple)
-          .foregroundColor(Color.white)
       }
     }
     .padding()
