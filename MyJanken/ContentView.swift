@@ -5,7 +5,9 @@ struct ContentView: View {
   @State var selNum = -1 // 自分の手
   @State var resultNum = -1 // 結果
   @State var resultText = "" // 戦績の文字列
+  @State var dialogText = ""
   @State var userLife = 3 // ユーザライフ
+  @State var jankenTimes = 0 // じゃんけん総回数
   @State var userHand = [0, 0, 0] // ユーザがどの手を何回出したか
   @State var isViable = true // 自分の出す手でじゃんけん実行可能か
   
@@ -21,11 +23,13 @@ struct ContentView: View {
     if (isViable) {
       ansNum = Int.random(in: 0...2)
       resultNum = tabWL[selNum][ansNum]
-      resultText = imgStr[selNum] + "を出しました"
+      dialogText = imgStr[selNum] + "を出しました"
+      jankenTimes += 1
     } else {
-      resultText = imgStr[selNum] + "はもう出せません"
+      dialogText = imgStr[selNum] + "はもう出せません"
     }
     lifeCalc(result: resultNum)
+    judge()
   }
   
   // 手カウント 0→グー 1→チョキ 2→パー
@@ -44,6 +48,15 @@ struct ContentView: View {
       userLife += 1
     } else if (result == 1) {
       userLife -= 1
+    }
+  }
+  
+  // 勝敗判定
+  func judge() {
+    if (userLife == 0) {
+      resultText = "あなたの負け…"
+    } else if (jankenTimes == 12) {
+      resultText = "あなたの勝ち！"
     }
   }
   
@@ -77,7 +90,7 @@ struct ContentView: View {
           .aspectRatio(contentMode: .fit)
         Spacer()
         // 画像
-        Text(resultText)
+        Text(dialogText)
           .padding(.bottom)
         Text(resultStr[resultNum])
           .font(.title)
