@@ -142,7 +142,7 @@ struct ContentView: View {
       .padding()
       .overlay{
         if (isFinish) {
-          PopupView(resultText: $resultText)
+          PopupView(resultText: $resultText, ansNum: $ansNum, jankenTimes: $jankenTimes, userLife: $userLife, userHand: $userHand, isFinish: $isFinish)
         }
       }
   }
@@ -150,6 +150,11 @@ struct ContentView: View {
 
 struct PopupView: View {
   @Binding var resultText: String
+  @Binding var ansNum: Int
+  @Binding var jankenTimes: Int
+  @Binding var userLife: Int
+  @Binding var userHand: Array<Int>
+  @Binding var isFinish: Bool
   
   var body: some View {
     VStack {
@@ -158,7 +163,13 @@ struct PopupView: View {
           .font(.title)
           .padding(.top)
         Button("もう一度プレイする") {
-          
+          ansNum = -1
+          jankenTimes = 0
+          userLife = 3
+          for i in 0...2 {
+            userHand[i] = 0
+          }
+          isFinish = false
         }
         .frame(maxWidth: .infinity)
         .frame(height: 55)
