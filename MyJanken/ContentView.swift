@@ -84,19 +84,6 @@ struct ContentView: View {
           .background(Color.purple)
           .foregroundColor(Color.white)
       }
-      
-      // リセットボタン
-      Button("リセット"){
-        resultText = ""
-        wld = [0, 0, 0]
-        ansNum = -1
-        selNum = -1
-      }
-        .frame(maxWidth: .infinity)
-        .frame(height: 60)
-        .font(.title2)
-        .background(Color.blue)
-        .foregroundColor(Color.white)
     }
     .padding()
   }
