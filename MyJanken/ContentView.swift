@@ -6,6 +6,7 @@ struct ContentView: View {
   @State var resultNum = -1 // 結果
   @State var wld = [0, 0, 0] // 通算の勝ち・負け・引き分け
   @State var resultText = "" // 戦績の文字列
+  @State var userLife = 3 // ユーザライフ
   
   let imgName = ["gu", "choki", "pa"] // 画像名
   let imgStr = ["グー", "チョキ", "パー"] // 自分の手の表示用
@@ -13,22 +14,40 @@ struct ContentView: View {
   let resultUnit = ["勝", "敗", "分"] // 戦績の表示用
   let tabWL = [[2, 0, 1], [1, 2, 0], [0, 1, 2]] // 対戦表
   
+  let userHand = [0, 0, 0] // ユーザがどの手を何回出したか
+  
   // 判定および戦績の更新
-  func janken() {
+  func doJanken() {
     ansNum = Int.random(in: 0...2)
     resultNum = tabWL[selNum][ansNum]
     wld[resultNum] += 1
     resultText = ""
+    lifeCalc(result: resultNum)
     for i in 0...2 {
       resultText += String(wld[i]) + resultUnit[i]
     }
   }
   
+  // ライフ処理
+  func lifeCalc(result: Int) {
+    if (result == 0) {
+      userLife += 1
+    } else if (result == 1) {
+      userLife -= 1
+    }
+  }
+  
   var body: some View {
     VStack {
-      // 戦績
-      Text(resultText)
-        .font(.title)
+      // ユーザライフ表示
+      HStack {
+        Image(systemName: "suit.heart.fill")
+          .foregroundColor(Color.pink)
+          .frame(width: 16.0, height: 16.0)
+        Text(String(userLife))
+          .font(.title)
+      }
+      
       Spacer()
       
       // 画像と結果
@@ -58,7 +77,7 @@ struct ContentView: View {
       HStack {
         Button(imgStr[0]){
           selNum = 0
-          janken()
+          doJanken()
         }
           .frame(maxWidth: .infinity)
           .frame(height: 80)
@@ -67,7 +86,7 @@ struct ContentView: View {
           .foregroundColor(Color.white)
         Button(imgStr[1]){
           selNum = 1
-          janken()
+          doJanken()
         }
           .frame(maxWidth: .infinity)
           .frame(height: 80)
@@ -76,7 +95,7 @@ struct ContentView: View {
           .foregroundColor(Color.white)
         Button(imgStr[2]){
           selNum = 2
-          janken()
+          doJanken()
         }
           .frame(maxWidth: .infinity)
           .frame(height: 80)
